@@ -7,10 +7,9 @@ angular.module('selectSearch', [])
             itemsAll: '=selectSearch'
             , selected: '=ngModel'
             , ngRequired: '@'
-
-            , ssHeight: '@'
             , ssClass: '@'
             , ssName: '@'
+            , ssHeight: '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
