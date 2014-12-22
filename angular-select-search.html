@@ -1,0 +1,25 @@
+<div ng-class="{ open: opened, dropup: dropup }"
+  class="btn-group bootstrap-select {{ssClass}}">
+    <button ng-click="toggle($event)"
+      type="button" class="btn dropdown-toggle btn-default">
+        <span class="filter-option pull-left">{{selected.title}}</span>
+        &nbsp;<span class="caret"></span>
+    </button>
+
+    <div ng-show="opened" class="dropdown-menu">
+        <div class="bs-searchbox">
+            <input ng-model="filter" ng-click="noop($event)" type="text"
+              class="input-block-level form-control" autocomplete="off" />
+        </div>
+        <ul ng-show="opened" class="dropdown-menu inner"
+          style="display: block; overflow-y: auto; min-height: 0px;"
+          ng-style="{ 'max-height': height + 'px' }">
+            <li
+              ng-repeat="item in items | filter: filter"
+              ng-class="{ active: (index === $index) }">
+                {{ select($index, (index === -1 && item.value === selected.value)) }}
+                <a ng-click="select($index)">{{item.title}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "name": "angular-select-search",
+  "main": "angular-select-search.js",
+  "version": "0.4.3",
+  "authors": [
+    "Iskren Slavov <iskren.s@gmail.com>"
+  ],
+  "description": "Angular select replacement directive. With search functionality. Uses bootstrap-select CSS styles. No JQuery.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "search",
+    "select",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/zewish/angular-select-search",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
