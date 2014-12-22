@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css"
       href="http://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.css">
 
-    <script type="text/javascript" src="angular-select-search.js"></script>
+    <script type="text/javascript" src="dist/angular-select-search.js"></script>
     <script type="text/javascript">
         angular.module('demo', ['selectSearch'])
         .controller('MainController', function($scope) {
@@ -139,7 +139,13 @@
             abracadabra<br />
         </div>
         <div ng-controller="MainController">
-            <div select-search="items" ss-class="form-control" ss-height="300" ng-model="selected"></div>
+            <div
+              select-search="items"
+              ss-class="form-control"
+              ss-height="300"
+              ss-name="myName"
+              ng-model="selected"
+              ng-required="true"></div>
             {{selected}}
         </div>
         <div>
