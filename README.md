@@ -1,10 +1,9 @@
-Angular.js \<select\> replacement with Search functionality
---------------------------------------------------------
+\<select\> replacement directive with Search functionality
+----------------------------------------------------------
 
-- Angular select replacement directive.
-- With search functionality.
-- Uses bootstrap-select CSS styles.
-- Does not use JQuery or any other external library.
+- Does not use JQuery or any other external library - Angular.js is the only dependency.
+- Optionally uses bootstrap-select CSS styles.
+
 
 Demo
 ----
