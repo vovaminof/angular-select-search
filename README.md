@@ -1,4 +1,4 @@
-Angular \<select\> replacement with Search functionality
+Angular.js \<select\> replacement with Search functionality
 --------------------------------------------------------
 
 - Angular select replacement directive.
