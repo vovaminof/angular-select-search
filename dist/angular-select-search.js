@@ -13,7 +13,7 @@ angular.module('selectSearch', [])
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
-            $scope.height = $scope.mheight || 200;
+            $scope.ssHeight = $scope.ssHeight || 200;
 
             $scope.elemHasClass = function(elem, elemClass) {
                 return ((' ' + elem.className + ' ').indexOf(' ' + elemClass + ' ') > -1);
@@ -67,7 +67,7 @@ angular.module('selectSearch', [])
                 $scope.filter = '';
                 $timeout(function() {
                     if ($scope.opened) {
-                        $scope.searchInput[0].focus();
+                        $scope.searchInput.focus();
                         angular.element($window).bind('keydown', $scope.keydown);
                     }
                     else {
@@ -144,8 +144,23 @@ angular.module('selectSearch', [])
                     scope.dropdownMenu = elem;
                 }
                 else if (scope.elemHasClass(elem, 'bs-searchbox')) {
-                    scope.searchInput = angular.element(elem).find('input');
+                    scope.searchInput = angular.element(elem).find('input')[0];
                 }
+            });
+
+            Array.prototype.forEach.call(element.find('input'), function(elem) {
+                Array.prototype.forEach.call(elem.attributes, function(attr) {
+                    if (attr.name !== 'type' || attr.value !== 'hidden') {
+                        return;
+                    }
+                    scope.hiddenInput = elem;
+                });
+            });
+
+            scope.removeDomWatcher = scope.$watch(function() {
+                return scope.hiddenInput.className;
+            }, function(className) {
+                scope.inputClass = className;
             });
 
             angular.element($window)
@@ -155,6 +170,8 @@ angular.module('selectSearch', [])
 
             scope.$on('$destroy', function() {
                 scope.removeWatcher();
+                scope.removeDomWatcher();
+
                 angular.element($window)
                     .unbind('resize', scope.reposition)
                     .unbind('scroll', scope.reposition)
@@ -163,4 +180,4 @@ angular.module('selectSearch', [])
         }
     };
 });
-angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{selected.title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': height + \'px\' }\">\n            <li\n              ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index === $index) }\">\n                {{ select($index, (index === -1 && item.value === selected.value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n\n    <input type=\"hidden\" name=\"{{ssName}}\" ng-required=\"{{ngRequired}}\" ng-model=\"selected.value\" />\n</div>");}]);
+angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default {{inputClass}}\">\n        <span class=\"filter-option pull-left\">{{selected.title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            <li\n              ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index === $index) }\">\n                {{ select($index, (index === -1 && item.value === selected.value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n\n    <input type=\"hidden\" name=\"{{ssName}}\"\n      ng-required=\"{{ngRequired}}\" ng-model=\"selected.value\" />\n</div>");}]);

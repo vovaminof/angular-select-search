@@ -13,7 +13,7 @@ angular.module('selectSearch', [])
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
-            $scope.height = $scope.mheight || 200;
+            $scope.ssHeight = $scope.ssHeight || 200;
 
             $scope.elemHasClass = function(elem, elemClass) {
                 return ((' ' + elem.className + ' ').indexOf(' ' + elemClass + ' ') > -1);
@@ -67,7 +67,7 @@ angular.module('selectSearch', [])
                 $scope.filter = '';
                 $timeout(function() {
                     if ($scope.opened) {
-                        $scope.searchInput[0].focus();
+                        $scope.searchInput.focus();
                         angular.element($window).bind('keydown', $scope.keydown);
                     }
                     else {
@@ -144,8 +144,23 @@ angular.module('selectSearch', [])
                     scope.dropdownMenu = elem;
                 }
                 else if (scope.elemHasClass(elem, 'bs-searchbox')) {
-                    scope.searchInput = angular.element(elem).find('input');
+                    scope.searchInput = angular.element(elem).find('input')[0];
                 }
+            });
+
+            Array.prototype.forEach.call(element.find('input'), function(elem) {
+                Array.prototype.forEach.call(elem.attributes, function(attr) {
+                    if (attr.name !== 'type' || attr.value !== 'hidden') {
+                        return;
+                    }
+                    scope.hiddenInput = elem;
+                });
+            });
+
+            scope.removeDomWatcher = scope.$watch(function() {
+                return scope.hiddenInput.className;
+            }, function(className) {
+                scope.inputClass = className;
             });
 
             angular.element($window)
@@ -155,6 +170,8 @@ angular.module('selectSearch', [])
 
             scope.$on('$destroy', function() {
                 scope.removeWatcher();
+                scope.removeDomWatcher();
+
                 angular.element($window)
                     .unbind('resize', scope.reposition)
                     .unbind('scroll', scope.reposition)

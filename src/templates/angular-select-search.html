@@ -1,7 +1,7 @@
 <div ng-class="{ open: opened, dropup: dropup }"
   class="btn-group bootstrap-select {{ssClass}}">
     <button ng-click="toggle($event)"
-      type="button" class="btn dropdown-toggle btn-default">
+      type="button" class="btn dropdown-toggle btn-default {{inputClass}}">
         <span class="filter-option pull-left">{{selected.title}}</span>
         &nbsp;<span class="caret"></span>
     </button>
@@ -13,7 +13,7 @@
         </div>
         <ul ng-show="opened" class="dropdown-menu inner"
           style="display: block; overflow-y: auto; min-height: 0px;"
-          ng-style="{ 'max-height': height + 'px' }">
+          ng-style="{ 'max-height': ssHeight + 'px' }">
             <li
               ng-repeat="item in items | filter: filter"
               ng-class="{ active: (index === $index) }">
@@ -23,5 +23,6 @@
         </ul>
     </div>
 
-    <input type="hidden" name="{{ssName}}" ng-required="{{ngRequired}}" ng-model="selected.value" />
+    <input type="hidden" name="{{ssName}}"
+      ng-required="{{ngRequired}}" ng-model="selected.value" />
 </div>
