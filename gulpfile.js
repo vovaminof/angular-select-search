@@ -23,7 +23,9 @@ gulp.task('buildMinified', ['templateCache'], function() {
 });
 
 gulp.task('build', ['buildMinified'], function() {
-
+    return gulp.src(['src/*.js', 'src/*/*.js'])
+        .pipe(concat('angular-select-search.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('default', ['build'])
