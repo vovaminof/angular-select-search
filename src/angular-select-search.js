@@ -2,7 +2,7 @@ angular.module('selectSearch', [])
 .directive('selectSearch', function($window, $filter, $timeout) {
     return {
         restrict: 'A'
-        , templateUrl: './angular-select-search.html'
+        , templateUrl: 'templates/angular-select-search.html'
         , scope: {
             itemsAll: '=selectSearch'
             , selected: '=ngModel'
