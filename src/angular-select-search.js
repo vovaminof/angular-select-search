@@ -5,8 +5,9 @@ angular.module('selectSearch', [])
         , templateUrl: 'templates/angular-select-search.html'
         , scope: {
             itemsAll: '=selectSearch'
-            , name: '@'
             , value: '=ngModel'
+            , name: '@'
+            , selected: '='
             , ngRequired: '@'
             , ssHeight: '@'
             , ssClass: '@'
@@ -17,12 +18,14 @@ angular.module('selectSearch', [])
 
             $scope.index = -1;
             $scope.select = function(index, condition) {
+                index = parseInt(index);
                 condition = (angular.isDefined(condition)) ? condition : true;
                 if (!condition) {
                     return;
                 }
 
                 $scope.index = index;
+                $scope.selected = index;
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
@@ -132,7 +135,7 @@ angular.module('selectSearch', [])
                 });
             };
 
-            $scope.removeWatcher = $scope.$watch('[filter,value]', function() {
+            $scope.removeWatchers = $scope.$watch('[filter,value]', function() {
                 $scope.items = $filter('filter')($scope.itemsAll, $scope.filter);
                 $scope.index = -1;
                 $scope.moveScroll();
@@ -168,7 +171,7 @@ angular.module('selectSearch', [])
                 .bind('click', scope.close);
 
             scope.$on('$destroy', function() {
-                scope.removeWatcher();
+                scope.removeWatchers();
                 angular.element($window)
                     .unbind('resize', scope.reposition)
                     .unbind('scroll', scope.reposition)

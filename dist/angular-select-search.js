@@ -5,8 +5,9 @@ angular.module('selectSearch', [])
         , templateUrl: 'templates/angular-select-search.html'
         , scope: {
             itemsAll: '=selectSearch'
-            , name: '@'
             , value: '=ngModel'
+            , name: '@'
+            , selected: '='
             , ngRequired: '@'
             , ssHeight: '@'
             , ssClass: '@'
@@ -17,12 +18,14 @@ angular.module('selectSearch', [])
 
             $scope.index = -1;
             $scope.select = function(index, condition) {
+                index = parseInt(index);
                 condition = (angular.isDefined(condition)) ? condition : true;
                 if (!condition) {
                     return;
                 }
-                $scope.index = index;
 
+                $scope.index = index;
+                $scope.selected = index;
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
@@ -132,11 +135,11 @@ angular.module('selectSearch', [])
                 });
             };
 
-            $scope.removeWatcher = $scope.$watch('filter', function() {
+            $scope.removeWatchers = $scope.$watch('[filter,value]', function() {
                 $scope.items = $filter('filter')($scope.itemsAll, $scope.filter);
                 $scope.index = -1;
                 $scope.moveScroll();
-            });
+            }, true);
 
             $scope.noop = function(ev) {
                 ev.preventDefault();
@@ -168,7 +171,7 @@ angular.module('selectSearch', [])
                 .bind('click', scope.close);
 
             scope.$on('$destroy', function() {
-                scope.removeWatcher();
+                scope.removeWatchers();
                 angular.element($window)
                     .unbind('resize', scope.reposition)
                     .unbind('scroll', scope.reposition)
@@ -177,4 +180,4 @@ angular.module('selectSearch', [])
         }
     };
 });
-angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            <li\n              ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item.value == value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);
+angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item.value == value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);

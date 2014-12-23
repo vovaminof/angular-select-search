@@ -109,7 +109,8 @@
                 , value: 800
             }];
 
-            $scope.selected = 5;
+            $scope.value = 5;
+            $scope.index = 1;
         });
     </script>
 </head>
@@ -137,6 +138,7 @@
             abracadabra<br />
             abracadabra<br />
             abracadabra<br />
+            <br />
         </div>
         <div ng-controller="MainController">
             <div
@@ -144,11 +146,24 @@
               ss-class="form-control"
               ss-height="300"
               ss-name="myName"
-              ng-model="selected"
+              selected="1"
+              ng-model="value"
               ng-required="true"></div>
-            <strong>Selected:</strong> {{selected}}
+            <strong>Selected value:</strong> {{value}}
+
+            <br />
+            <br />
+
+            <div
+              select-search="items"
+              ss-class="form-control"
+              selected="index"
+              ng-model="value2"
+              ng-required="true"></div>
+            <strong>Selected index:</strong> {{index}}
         </div>
         <div>
+            <br />
             abracadabra<br />
             abracadabra<br />
             abracadabra<br />

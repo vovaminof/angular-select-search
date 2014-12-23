@@ -14,8 +14,8 @@
         <ul ng-show="opened" class="dropdown-menu inner"
           style="display: block; overflow-y: auto; min-height: 0px;"
           ng-style="{ 'max-height': ssHeight + 'px' }">
-            <li
-              ng-repeat="item in items | filter: filter"
+            {{ select(selected, (selected >= 0)) }}
+            <li ng-repeat="item in items | filter: filter"
               ng-class="{ active: (index == $index) }">
                 {{ select($index, (index === -1 && item.value == value)) }}
                 <a ng-click="select($index)">{{item.title}}</a>
