@@ -82,16 +82,18 @@ angular.module('selectSearch', [])
             };
 
             $scope.keydown = function(ev) {
-                if (event.keyCode === 27) {
+                if (ev.keyCode === 27) {
                     $scope.close();
                 }
-                if (event.keyCode === 40) {
+                if (ev.keyCode === 40) {
                     $scope.down();
                 }
-                if (event.keyCode === 38) {
+                if (ev.keyCode === 38) {
                     $scope.up();
                 }
-                if (event.keyCode === 13) {
+                if (ev.keyCode === 13) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
                     $scope.select($scope.index);
                     $scope.close();
                 }
