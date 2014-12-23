@@ -6,10 +6,11 @@ angular.module('selectSearch', [])
         , scope: {
             itemsAll: '=selectSearch'
             , selected: '=ngModel'
-            , ngRequired: '@'
-            , ssClass: '@'
-            , ssName: '@'
+
             , ssHeight: '@'
+            , ssClass: '@'
+            , ngRequired: '@'
+            , name: '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -152,9 +153,9 @@ angular.module('selectSearch', [])
 
             scope.touched = function() {
                 var formController = element.controller('form');
-                if (angular.isDefined(formController) && angular.isDefined(scope.ssName)) {
-                    formController[scope.ssName].$touched = true;
-                    formController[scope.ssName].$untouched = false;
+                if (angular.isDefined(formController) && angular.isDefined(scope.name)) {
+                    formController[scope.name].$touched = true;
+                    formController[scope.name].$untouched = false;
                 }
                 $animate.setClass(element, 'ng-touched', 'ng-untouched');
             };
