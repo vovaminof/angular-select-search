@@ -2,7 +2,7 @@
   class="btn-group bootstrap-select {{ssClass}}">
     <button ng-click="toggle($event)"
       type="button" class="btn dropdown-toggle btn-default">
-        <span class="filter-option pull-left">{{selected.title}}</span>
+        <span class="filter-option pull-left">{{title}}</span>
         &nbsp;<span class="caret"></span>
     </button>
 
@@ -16,8 +16,8 @@
           ng-style="{ 'max-height': ssHeight + 'px' }">
             <li
               ng-repeat="item in items | filter: filter"
-              ng-class="{ active: (index === $index) }">
-                {{ select($index, (index === -1 && item.value === selected.value)) }}
+              ng-class="{ active: (index == $index) }">
+                {{ select($index, (index === -1 && item.value == value)) }}
                 <a ng-click="select($index)">{{item.title}}</a>
             </li>
         </ul>

@@ -5,12 +5,11 @@ angular.module('selectSearch', [])
         , templateUrl: 'templates/angular-select-search.html'
         , scope: {
             itemsAll: '=selectSearch'
-            , selected: '=ngModel'
-
+            , name: '@'
+            , value: '=ngModel'
+            , ngRequired: '@'
             , ssHeight: '@'
             , ssClass: '@'
-            , ngRequired: '@'
-            , name: '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -22,12 +21,13 @@ angular.module('selectSearch', [])
                 if (!condition) {
                     return;
                 }
-                $scope.index = index;
 
+                $scope.index = index;
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
-                $scope.selected = angular.copy($scope.items[index]);
+                $scope.value = $scope.items[index].value;
+                $scope.title = $scope.items[index].title;
             };
 
             $scope.dropup = false;
@@ -132,11 +132,11 @@ angular.module('selectSearch', [])
                 });
             };
 
-            $scope.removeWatcher = $scope.$watch('filter', function() {
+            $scope.removeWatcher = $scope.$watch('[filter,value]', function() {
                 $scope.items = $filter('filter')($scope.itemsAll, $scope.filter);
                 $scope.index = -1;
                 $scope.moveScroll();
-            });
+            }, true);
 
             $scope.noop = function(ev) {
                 ev.preventDefault();

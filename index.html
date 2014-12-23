@@ -109,7 +109,7 @@
                 , value: 800
             }];
 
-            $scope.selected = angular.copy($scope.items[0]);
+            $scope.selected = 5;
         });
     </script>
 </head>
@@ -146,7 +146,7 @@
               ss-name="myName"
               ng-model="selected"
               ng-required="true"></div>
-            {{selected}}
+            <strong>Selected:</strong> {{selected}}
         </div>
         <div>
             abracadabra<br />
