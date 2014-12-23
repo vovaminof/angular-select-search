@@ -1,5 +1,5 @@
 angular.module('selectSearch', [])
-.directive('selectSearch', function($window, $filter, $timeout) {
+.directive('selectSearch', function($window, $filter, $timeout, $animate) {
     return {
         restrict: 'A'
         , templateUrl: 'templates/angular-select-search.html'
@@ -55,9 +55,15 @@ angular.module('selectSearch', [])
                 ev.preventDefault();
                 ev.stopPropagation();
                 $scope.opened = !$scope.opened;
+                if (!$scope.opened) {
+                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                }
                 $scope.fix();
             };
             $scope.close = function() {
+                if ($scope.opened) {
+                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                }
                 $scope.opened = false;
                 $scope.$apply();
                 $scope.fix();
@@ -147,15 +153,7 @@ angular.module('selectSearch', [])
                     scope.searchInput = angular.element(elem).find('input')[0];
                 }
             });
-
-            Array.prototype.forEach.call(element.find('input'), function(elem) {
-                Array.prototype.forEach.call(elem.attributes, function(attr) {
-                    if (attr.name !== 'type' || attr.value !== 'hidden') {
-                        return;
-                    }
-                    scope.hiddenInput = elem;
-                });
-            });
+            scope.element = element;
 
             angular.element($window)
                 .bind('resize', scope.reposition)
