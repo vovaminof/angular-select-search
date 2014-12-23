@@ -52,13 +52,13 @@ angular.module('selectSearch', [])
                 ev.stopPropagation();
                 $scope.opened = !$scope.opened;
                 if (!$scope.opened) {
-                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                    $scope.touched();
                 }
                 $scope.fix();
             };
             $scope.close = function() {
                 if ($scope.opened) {
-                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                    $scope.touched();
                 }
                 $scope.opened = false;
                 $scope.$apply();
@@ -149,7 +149,15 @@ angular.module('selectSearch', [])
                     scope.searchInput = angular.element(elem).find('input')[0];
                 }
             });
-            scope.element = element;
+
+            scope.touched = function() {
+                var formController = element.controller('form');
+                if (angular.isDefined(formController) && angular.isDefined(scope.ssName)) {
+                    formController[scope.ssName].$touched = true;
+                    formController[scope.ssName].$untouched = false;
+                }
+                $animate.setClass(element, 'ng-touched', 'ng-untouched');
+            };
 
             angular.element($window)
                 .bind('resize', scope.reposition)
@@ -166,4 +174,4 @@ angular.module('selectSearch', [])
         }
     };
 });
-angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{selected.title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            <li\n              ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index === $index) }\">\n                {{ select($index, (index === -1 && item.value === selected.value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n\n    <input type=\"hidden\" name=\"{{ssName}}\"\n      ng-required=\"{{ngRequired}}\" ng-model=\"selected.value\" />\n</div>");}]);
+angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{selected.title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            <li\n              ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index === $index) }\">\n                {{ select($index, (index === -1 && item.value === selected.value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);

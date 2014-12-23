@@ -52,13 +52,13 @@ angular.module('selectSearch', [])
                 ev.stopPropagation();
                 $scope.opened = !$scope.opened;
                 if (!$scope.opened) {
-                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                    $scope.touched();
                 }
                 $scope.fix();
             };
             $scope.close = function() {
                 if ($scope.opened) {
-                    $animate.setClass($scope.element, 'ng-touched', 'ng-untouched');
+                    $scope.touched();
                 }
                 $scope.opened = false;
                 $scope.$apply();
@@ -149,7 +149,15 @@ angular.module('selectSearch', [])
                     scope.searchInput = angular.element(elem).find('input')[0];
                 }
             });
-            scope.element = element;
+
+            scope.touched = function() {
+                var formController = element.controller('form');
+                if (angular.isDefined(formController) && angular.isDefined(scope.ssName)) {
+                    formController[scope.ssName].$touched = true;
+                    formController[scope.ssName].$untouched = false;
+                }
+                $animate.setClass(element, 'ng-touched', 'ng-untouched');
+            };
 
             angular.element($window)
                 .bind('resize', scope.reposition)
