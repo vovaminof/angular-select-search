@@ -15,10 +15,6 @@ angular.module('selectSearch', [])
             $scope.items = $scope.itemsAll;
             $scope.ssHeight = $scope.ssHeight || 200;
 
-            $scope.elemHasClass = function(elem, elemClass) {
-                return ((' ' + elem.className + ' ').indexOf(' ' + elemClass + ' ') > -1);
-            };
-
             $scope.index = -1;
             $scope.select = function(index, condition) {
                 condition = (angular.isDefined(condition)) ? condition : true;
@@ -121,7 +117,7 @@ angular.module('selectSearch', [])
                 var ul = angular.element($scope.dropdownMenu).find('ul')
                     , liElems = ul.find('li');
                 Array.prototype.forEach.call(liElems, function(li, i) {
-                    if (!$scope.elemHasClass(li, 'active')) {
+                    if (!angular.element(li).hasClass('active')) {
                         return;
                     }
                     var posLi = li.getBoundingClientRect()
@@ -146,10 +142,10 @@ angular.module('selectSearch', [])
         }
         , link: function(scope, element, attrs) {
             Array.prototype.forEach.call(element.find('div'), function(elem) {
-                if (scope.elemHasClass(elem, 'dropdown-menu')) {
+                if (angular.element(elem).hasClass('dropdown-menu')) {
                     scope.dropdownMenu = elem;
                 }
-                else if (scope.elemHasClass(elem, 'bs-searchbox')) {
+                else if (angular.element(elem).hasClass('bs-searchbox')) {
                     scope.searchInput = angular.element(elem).find('input')[0];
                 }
             });
