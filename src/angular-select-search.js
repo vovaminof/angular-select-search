@@ -25,7 +25,10 @@ angular.module('selectSearch', [])
                 }
 
                 $scope.index = index;
-                $scope.selected = index;
+                if (angular.isDefined($scope.selected)) {
+                    $scope.selected = index;
+                }
+
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
