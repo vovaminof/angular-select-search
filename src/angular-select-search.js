@@ -157,12 +157,6 @@ angular.module('selectSearch', [])
                 });
             });
 
-            scope.removeDomWatcher = scope.$watch(function() {
-                return scope.hiddenInput.className;
-            }, function(className) {
-                scope.inputClass = className;
-            });
-
             angular.element($window)
                 .bind('resize', scope.reposition)
                 .bind('scroll', scope.reposition)
@@ -170,8 +164,6 @@ angular.module('selectSearch', [])
 
             scope.$on('$destroy', function() {
                 scope.removeWatcher();
-                scope.removeDomWatcher();
-
                 angular.element($window)
                     .unbind('resize', scope.reposition)
                     .unbind('scroll', scope.reposition)
