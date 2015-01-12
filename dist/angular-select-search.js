@@ -9,8 +9,10 @@ angular.module('selectSearch', [])
             , name: '@'
             , selected: '='
             , ngRequired: '@'
+
             , ssHeight: '@'
             , ssClass: '@'
+            , ssId: '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -138,7 +140,7 @@ angular.module('selectSearch', [])
                 });
             };
 
-            $scope.removeWatchers = $scope.$watch('[filter,value]', function() {
+            $scope.removeWatchers = $scope.$watch('[filter,value,itemsAll]', function() {
                 $scope.items = $filter('filter')($scope.itemsAll, $scope.filter);
                 $scope.index = -1;
                 $scope.moveScroll();
@@ -183,4 +185,4 @@ angular.module('selectSearch', [])
         }
     };
 });
-angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0 && index === -1)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item.value == value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);
+angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\" id=\"{{ssId}}\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0 && index === -1)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item.value == value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);

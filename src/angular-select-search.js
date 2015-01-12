@@ -9,8 +9,10 @@ angular.module('selectSearch', [])
             , name: '@'
             , selected: '='
             , ngRequired: '@'
+
             , ssHeight: '@'
             , ssClass: '@'
+            , ssId: '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -138,7 +140,7 @@ angular.module('selectSearch', [])
                 });
             };
 
-            $scope.removeWatchers = $scope.$watch('[filter,value]', function() {
+            $scope.removeWatchers = $scope.$watch('[filter,value,itemsAll]', function() {
                 $scope.items = $filter('filter')($scope.itemsAll, $scope.filter);
                 $scope.index = -1;
                 $scope.moveScroll();
