@@ -8,7 +8,9 @@ angular.module('selectSearch', [])
             , value: '=ngModel'
             , name: '@'
             , selected: '='
+
             , ngRequired: '@'
+            , ngDisabled: '@'
 
             , ssHeight: '@'
             , ssClass: '@'
