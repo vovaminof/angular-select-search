@@ -15,6 +15,9 @@ angular.module('selectSearch', [])
             , ssHeight: '@'
             , ssClass: '@'
             , ssId: '@'
+            , content: '@'
+            , key: '@'
+            , placeholder : '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -36,8 +39,8 @@ angular.module('selectSearch', [])
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
-                $scope.value = $scope.items[index].value;
-                $scope.title = $scope.items[index].title;
+                $scope.value = $scope.items[index][$scope.key];
+                $scope.title = $scope.items[index][$scope.content];
             };
 
             $scope.dropup = false;
@@ -152,6 +155,7 @@ angular.module('selectSearch', [])
                 ev.preventDefault();
                 ev.stopPropagation();
             };
+
         }
         , link: function(scope, element, attrs) {
             Array.prototype.forEach.call(element.find('div'), function(elem) {

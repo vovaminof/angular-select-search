@@ -15,6 +15,9 @@ angular.module('selectSearch', [])
             , ssHeight: '@'
             , ssClass: '@'
             , ssId: '@'
+            , content: '@'
+            , key: '@'
+            , placeholder : '@'
         }
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
@@ -36,8 +39,8 @@ angular.module('selectSearch', [])
                 if (!angular.isDefined($scope.items[index])) {
                     return;
                 }
-                $scope.value = $scope.items[index].value;
-                $scope.title = $scope.items[index].title;
+                $scope.value = $scope.items[index][$scope.key];
+                $scope.title = $scope.items[index][$scope.content];
             };
 
             $scope.dropup = false;
@@ -152,6 +155,7 @@ angular.module('selectSearch', [])
                 ev.preventDefault();
                 ev.stopPropagation();
             };
+
         }
         , link: function(scope, element, attrs) {
             Array.prototype.forEach.call(element.find('div'), function(elem) {
@@ -187,4 +191,4 @@ angular.module('selectSearch', [])
         }
     };
 });
-angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      id=\"{{ssId}}\" ng-disabled=\"{{ngDisabled}}\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0 && index === -1)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item.value == value)) }}\n                <a ng-click=\"select($index)\">{{item.title}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);
+angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select clearfix {{ssClass}}\" style=\"position: relative;\">\n    <button ng-click=\"toggle($event)\"\n      id=\"{{ssId}}\" ng-disabled=\"{{ngDisabled}}\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span data-ng-show=\"!value\" class=\"filter-option pull-left\">{{placeholder}}</span>\n        <span data-ng-show=\"value\" class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0 && index === -1)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item[key] == value)) }}\n                <a ng-click=\"select($index)\">{{item[content]}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);
