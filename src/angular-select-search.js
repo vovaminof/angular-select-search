@@ -22,7 +22,9 @@ angular.module('selectSearch', [])
         , controller: function($scope) {
             $scope.items = $scope.itemsAll;
             $scope.ssHeight = $scope.ssHeight || 200;
-
+            $scope.content = $scope.content || 'title';
+            $scope.key = $scope.key || 'value';
+            $scope.placeholder = $scope.placeholder || 'Select';
             $scope.index = -1;
             $scope.select = function(index, condition) {
                 index = parseInt(index);
