@@ -3,7 +3,8 @@
     <button ng-click="toggle($event)"
       id="{{ssId}}" ng-disabled="{{ngDisabled}}"
       type="button" class="btn dropdown-toggle btn-default">
-        <span class="filter-option pull-left">{{title}}</span>
+        <span data-ng-show="!value" class="filter-option pull-left">{{placeholder}}</span>
+        <span data-ng-show="value" class="filter-option pull-left">{{title}}</span>
         &nbsp;<span class="caret"></span>
     </button>
 
@@ -18,8 +19,8 @@
             {{ select(selected, (selected >= 0 && index === -1)) }}
             <li ng-repeat="item in items | filter: filter"
               ng-class="{ active: (index == $index) }">
-                {{ select($index, (index === -1 && item.value == value)) }}
-                <a ng-click="select($index)">{{item.title}}</a>
+                {{ select($index, (index === -1 && item[key] == value)) }}
+                <a ng-click="select($index)">{{item[content]}}</a>
             </li>
         </ul>
     </div>
