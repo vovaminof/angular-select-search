@@ -24,7 +24,7 @@ angular.module('selectSearch', [])
             $scope.ssHeight = $scope.ssHeight || 200;
             $scope.content = $scope.content || 'title';
             $scope.key = $scope.key || 'value';
-            $scope.placeholder = $scope.placeholder || 'Select';
+            $scope.placeholder = $scope.placeholder || '';
             $scope.index = -1;
             $scope.select = function(index, condition) {
                 index = parseInt(index);
