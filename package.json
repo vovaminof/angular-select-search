@@ -1,6 +1,6 @@
 {
   "name": "angular-select-search",
-  "version": "1.3.11",
+  "version": "1.3.12",
   "description": "Angular select replacement directive. With search functionality. Uses bootstrap-select CSS styles. No JQuery.",
   "main": "angular-select-search.js",
   "repository": {
