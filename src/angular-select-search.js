@@ -9,7 +9,7 @@ angular.module('selectSearch', [])
             , name: '@'
             , selected: '='
 
-            , ngRequired: '@'
+            , ngRequired: '='
             , ngDisabled: '='
 
             , ssHeight: '@'
@@ -174,6 +174,11 @@ angular.module('selectSearch', [])
                 if (angular.isDefined(formController) && angular.isDefined(scope.name)) {
                     formController[scope.name].$touched = true;
                     formController[scope.name].$untouched = false;
+                    if(scope.ngRequired){
+                        formController[scope.name].$setValidity('required',angular.isDefined(scope.value));
+                    }else{
+                        formController[scope.name].$setValidity('required',true);
+                    }
                 }
                 $animate.setClass(element, 'ng-touched', 'ng-untouched');
             };
