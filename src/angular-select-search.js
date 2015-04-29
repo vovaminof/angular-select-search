@@ -75,6 +75,7 @@ angular.module('selectSearch', [])
             $scope.close = function() {
                 if ($scope.opened) {
                     $scope.touched();
+                    $scope.el.blur();
                 }
                 $scope.opened = false;
                 $scope.$apply();
@@ -160,6 +161,8 @@ angular.module('selectSearch', [])
 
         }
         , link: function(scope, element, attrs) {
+            scope.el = element;
+
             Array.prototype.forEach.call(element.find('div'), function(elem) {
                 if (angular.element(elem).hasClass('dropdown-menu')) {
                     scope.dropdownMenu = elem;
