@@ -1,5 +1,5 @@
 angular.module('selectSearch', [])
-.directive('selectSearch', function($window, $filter, $timeout, $animate) {
+.directive('selectSearch', ['$window', '$filter', '$timeout', '$animate', function($window, $filter, $timeout, $animate) {
     return {
         restrict: 'A'
         , templateUrl: 'templates/angular-select-search.html'
@@ -19,7 +19,7 @@ angular.module('selectSearch', [])
             , key: '@'
             , placeholder : '@'
         }
-        , controller: function($scope) {
+        , controller: ['$scope', function($scope) {
             $scope.items = $scope.itemsAll;
             $scope.ssHeight = $scope.ssHeight || 200;
             $scope.content = $scope.content || 'title';
@@ -159,7 +159,7 @@ angular.module('selectSearch', [])
                 ev.stopPropagation();
             };
 
-        }
+        }]
         , link: function(scope, element, attrs) {
             scope.el = element;
 
@@ -201,5 +201,5 @@ angular.module('selectSearch', [])
             });
         }
     };
-});
+}]);
 angular.module("selectSearch").run(["$templateCache", function($templateCache) {$templateCache.put("templates/angular-select-search.html","<div ng-class=\"{ open: opened, dropup: dropup }\"\n  class=\"btn-group bootstrap-select {{ssClass}}\">\n    <button ng-click=\"toggle($event)\"\n      id=\"{{ssId}}\" ng-disabled=\"ngDisabled\"\n      type=\"button\" class=\"btn dropdown-toggle btn-default\">\n        <span data-ng-show=\"!value\" class=\"filter-option pull-left\">{{placeholder}}</span>\n        <span data-ng-show=\"value\" class=\"filter-option pull-left\">{{title}}</span>\n        &nbsp;<span class=\"caret\"></span>\n    </button>\n\n    <div ng-show=\"opened\" class=\"dropdown-menu\">\n        <div class=\"bs-searchbox\">\n            <input ng-model=\"filter\" ng-click=\"noop($event)\" type=\"text\"\n              class=\"input-block-level form-control\" autocomplete=\"off\" />\n        </div>\n        <ul ng-show=\"opened\" class=\"dropdown-menu inner\"\n          style=\"display: block; overflow-y: auto; min-height: 0px;\"\n          ng-style=\"{ \'max-height\': ssHeight + \'px\' }\">\n            {{ select(selected, (selected >= 0 && index === -1)) }}\n            <li ng-repeat=\"item in items | filter: filter\"\n              ng-class=\"{ active: (index == $index) }\">\n                {{ select($index, (index === -1 && item[key] == value)) }}\n                <a ng-click=\"select($index)\">{{item[content]}}</a>\n            </li>\n        </ul>\n    </div>\n</div>");}]);
